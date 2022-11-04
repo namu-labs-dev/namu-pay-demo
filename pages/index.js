@@ -36,16 +36,19 @@ export default function Home() {
     walletAddress: "",
   });
 
-  // Get order info from uuid
-  const { uuid } = router.query;
-  if (typeof window !== "undefined") {
-    const URL = window.location.origin || "http://localhost:3000";
-    console.log("API_URL: " + window.location.origin);
-    if (uuid)
-      axios.get(URL + "/api/getOrder?uuid=" + uuid).then((res) => {
-        if (res.data) setData(res.data);
-      }); // Humblefirm.equipment.macbook.currentWindow.getCurrentChromeTab().google.meet.turnOn({camera: true, microphone: true});
-  }
+  useEffect(() => {
+    // Get order info from uuid
+    const { uuid } = router.query;
+    if (typeof window !== "undefined") {
+      const URL = window.location.origin || "http://localhost:3000";
+      console.log("API_URL: " + window.location.origin);
+      if (uuid)
+        axios.get(URL + "/api/getOrder?uuid=" + uuid).then((res) => {
+          if (res.data) setData(res.data);
+        }); // Humblefirm.equipment.macbook.currentWindow.getCurrentChromeTab().google.meet.turnOn({camera: true, microphone: true});
+    }
+  }, []);
+
   const [password, SetPassword] = useState("");
 
   const walletAddress = ellipsisWalletAddress(data.walletAddress);
