@@ -27,6 +27,7 @@ function ellipsisWalletAddress(addr) {
 
 export default function Home() {
   const router = useRouter();
+  const [password, SetPassword] = useState("");
   const [data, setData] = useState({
     companyName: "",
     fiatPrice: "0",
@@ -39,14 +40,13 @@ export default function Home() {
   useEffect(() => {
     // Get order info from uuid
     const { uuid } = router.query;
-    if (typeof window !== "undefined") {
-      const URL = window.location.origin || "http://localhost:3000";
-      console.log("API_URL: " + window.location.origin);
-      if (uuid)
-        axios.get(URL + "/api/getOrder?uuid=" + uuid).then((res) => {
-          if (res.data) setData(res.data);
-        }); // Humblefirm.equipment.macbook.currentWindow.getCurrentChromeTab().google.meet.turnOn({camera: true, microphone: true});
-    }
+    const URL = window.location.origin || "http://localhost:3000";
+    console.log("API_URL: " + window.location.origin);
+    if (uuid)
+      axios.get(URL + "/api/getOrder?uuid=" + uuid).then((res) => {
+        if (res.data) setData(res.data);
+      }); // Humblefirm.equipment.macbook.currentWindow.getCurrentChromeTab().google.meet.turnOn({camera: true, microphone: true});
+    // }
   }, []);
   let walletAddress, fiatPrice, tokenAmount;
   useEffect(() => {
@@ -55,7 +55,6 @@ export default function Home() {
     tokenAmount = addComma(data.tokenAmount);
   }, [data]);
 
-  const [password, SetPassword] = useState("");
   useEffect(() => {
     checkPassword();
     SetPassword(password.substring(0, 6));
@@ -97,6 +96,7 @@ export default function Home() {
     toast(message, { hideProgressBar: false, autoClose: 2000, type: type });
   };
 
+  if (typeof window === "undefined") return <div />;
   return (
     <>
       <Head>
