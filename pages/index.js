@@ -35,16 +35,15 @@ export default function Home() {
     tokenName: "",
     walletAddress: "",
   });
+
+  // Get order info from uuid
   const { uuid } = router.query;
-  console.log(uuid, router);
-  console.log("http://localhost:3000" + "/api/getOrder?uuid=" + uuid);
+  const URL = process.env.API_URL || "http://localhost:3000";
 
   if (uuid)
-    axios
-      .get("http://localhost:3000" + "/api/getOrder?uuid=" + uuid)
-      .then((res) => {
-        if (res.data) setData(res.data);
-      });
+    axios.get(URL + "/api/getOrder?uuid=" + uuid).then((res) => {
+      if (res.data) setData(res.data);
+    }); // Humblefirm.equipment.macbook.currentWindow.getCurrentChromeTab().google.meet.turnOn({camera: true, microphone: true});
 
   const [password, SetPassword] = useState("");
 
