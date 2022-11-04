@@ -48,13 +48,14 @@ export default function Home() {
         }); // Humblefirm.equipment.macbook.currentWindow.getCurrentChromeTab().google.meet.turnOn({camera: true, microphone: true});
     }
   }, []);
+  let walletAddress, fiatPrice, tokenAmount;
+  useEffect(() => {
+    walletAddress = ellipsisWalletAddress(data.walletAddress);
+    fiatPrice = addComma(data.fiatPrice);
+    tokenAmount = addComma(data.tokenAmount);
+  }, [data]);
 
   const [password, SetPassword] = useState("");
-
-  const walletAddress = ellipsisWalletAddress(data.walletAddress);
-  const fiatPrice = addComma(data.fiatPrice);
-  const tokenAmount = addComma(data.tokenAmount);
-
   useEffect(() => {
     checkPassword();
     SetPassword(password.substring(0, 6));
