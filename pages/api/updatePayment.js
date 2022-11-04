@@ -1,14 +1,34 @@
+const upstash = require("../../lib/upstash");
 const EthCrypto = require("eth-crypto");
-// const Web3 = require("web3");
+const { v4: uuidv4 } = require("uuid");
 
-// import Web3 from "web3";
+async function getPubkey(address) {
+  return await upstash.get("pubkeyOf:" + address);
+}
+export default async function handler(req, res) {
+  const { walletAddress, result, signature } = req.query;
+  const paymentId = JSON.parse(result).paymentId;
+  const signer = EthCrypto.recover(signature, EthCrypto.hash.keccak256(result));
+  if (signer !== walletAddress)
+    return res.status(401).json({ error: "forbidden" });
 
-const main = async () => {
-  const alice = EthCrypto.createIdentity();
+  await upstash.lset(walletAddress, paymentId, result);
+  // console.log(publicKey);
+  // const payment = {
+  //   uuid: uuidv4(),
+  //   walletAddress,
+  //   tokenAddress,
+  //   tokenAmount,
+  //   password,
+  // };
 
-  console.log(alice);
+  // const payment = await EthCrypto.dec (
+  //   publicKey,
+  //   JSON.stringify(payment)
+  // );
 
-  // const unSignMessage = web3.eth.accounts.recover()
-};
+  // const paymentId =
+  //   -1 + (await upstash.rpush(walletAddress, JSON.stringify(enc_payment)));
 
-main();
+  res.status(200).json(result);
+}

@@ -8,10 +8,12 @@ async function getPubkey(address) {
 export default async function handler(req, res) {
   const { walletAddress, tokenAddress, tokenAmount, password } = req.query;
   const publicKey = await getPubkey(walletAddress);
+  const paymentLength = await upstash.llen(walletAddress);
 
   console.log(publicKey);
   const payment = {
     uuid: uuidv4(),
+    paymentId: paymentLength,
     walletAddress,
     tokenAddress,
     tokenAmount,

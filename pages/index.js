@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 // A Smart Component from Framer
 // import Toggle from "https://framer.com/m/Toggle-B5iT.js@52zFaz7rN7Bt3pjtYxWH";
-import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@81pZqowokKpcjEcfERQO";
+import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW";
 // import TEst from "https://framer.com/m/TEst-bD0l.js";
 import Test1 from "https://framer.com/m/Test1-HGIJ.js@kyq8lQTH9ewgjecUblLG";
 
@@ -28,6 +28,8 @@ function ellipsisWalletAddress(addr) {
 export default function Home() {
   const router = useRouter();
   const [password, SetPassword] = useState("");
+  const [waitingPayment, setWaitingPayment] = useState(0);
+  const [txid, setTxid] = useState(null);
   const [data, setData] = useState({
     companyName: "",
     fiatPrice: "0",
@@ -94,6 +96,30 @@ export default function Home() {
     toast(message, { hideProgressBar: false, autoClose: 2000, type: type });
   };
 
+  const addPayment = async () => {
+    if (waitingPayment) clearInterval(waitingPayment);
+    let ret = await axios({
+      method: "get",
+      url: `http://localhost:3000/api/addPayment?walletAddress=${data.walletAddress}&tokenAddress=${data.tokenAddress}&tokenAmount=${data.tokenAmount}&password=${password}`,
+      headers: {},
+    });
+    let { paymentId } = ret.data;
+
+    const id = setInterval(async () => {
+      let ret = await axios({
+        method: "get",
+        url: `http://localhost:3000/api/getPayment?walletAddress=${data.walletAddress}&paymentId=0`, //${paymentId}`,
+        headers: {},
+      });
+      if (typeof JSON.parse(ret.data[0]).txid !== "undefined")
+        setTxid(JSON.parse(ret.data[0]).txid);
+    }, 1000);
+    setWaitingPayment(id);
+  };
+  useEffect(() => {
+    clearInterval(waitingPayment);
+  }, [txid]);
+
   if (!element) return <></>;
 
   console.log(data);
@@ -128,6 +154,10 @@ export default function Home() {
           }
           clearAll={() => SetPassword("")}
           clear={() => SetPassword(password.substring(0, password.length - 1))}
+          openTxInfo={() => {
+            window.open(`https://polygonscan.com/tx/${txid}`);
+          }}
+          txid={txid ? ellipsisWalletAddress(txid) : ""}
           className="NamuPay"
           // Using default values:
           password={password}
@@ -136,8 +166,9 @@ export default function Home() {
           goodsName={data.goodsName}
           tokenAmount={addComma(data.tokenAmount)}
           tokenName={data.tokenName}
-          variant="Confirm"
+          variant={txid ? "finish" : "Confirm"}
           walletAddress={ellipsisWalletAddress(data.walletAddress)}
+          purchaseEvent={() => addPayment()}
         />
       </Container>
       <ToastContainer />
