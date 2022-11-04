@@ -36,18 +36,22 @@ export default function Home() {
     tokenName: "",
     walletAddress: "",
   });
+  const [element, setElement] = useState(null);
+
+  useEffect(() => {
+    setElement(document.getElementsByTagName("body"));
+  }, []);
 
   useEffect(() => {
     // Get order info from uuid
     const { uuid } = router.query;
     const URL = window.location.origin || "http://localhost:3000";
-    console.log("API_URL: " + window.location.origin);
     if (uuid)
       axios.get(URL + "/api/getOrder?uuid=" + uuid).then((res) => {
         if (res.data) setData(res.data);
-      }); // Humblefirm.equipment.macbook.currentWindow.getCurrentChromeTab().google.meet.turnOn({camera: true, microphone: true});
+      });
     // }
-  }, []);
+  }, [router.query]);
   let walletAddress, fiatPrice, tokenAmount;
   useEffect(() => {
     walletAddress = ellipsisWalletAddress(data.walletAddress);
@@ -96,7 +100,9 @@ export default function Home() {
     toast(message, { hideProgressBar: false, autoClose: 2000, type: type });
   };
 
-  if (typeof window === "undefined") return <div />;
+  if (!element) return <></>;
+
+  console.log(data);
   return (
     <>
       <Head>
