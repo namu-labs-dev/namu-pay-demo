@@ -26,6 +26,7 @@ function ellipsisWalletAddress(addr) {
 }
 
 export default function Home() {
+  if (!window) return <div />;
   const router = useRouter();
   const [data, setData] = useState({
     companyName: "",
@@ -38,8 +39,8 @@ export default function Home() {
 
   // Get order info from uuid
   const { uuid } = router.query;
-  const URL = process.env.API_URL || "http://localhost:3000";
-  console.log("API_URL: " + process.env.API_URL);
+  const URL = window.location.origin || "http://localhost:3000";
+  console.log("API_URL: " + window.location.origin);
   if (uuid)
     axios.get(URL + "/api/getOrder?uuid=" + uuid).then((res) => {
       if (res.data) setData(res.data);
