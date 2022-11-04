@@ -39,7 +39,7 @@ export default function Home() {
   // Get order info from uuid
   const { uuid } = router.query;
   const URL = process.env.API_URL || "http://localhost:3000";
-
+  console.log("API_URL: " + process.env.API_URL);
   if (uuid)
     axios.get(URL + "/api/getOrder?uuid=" + uuid).then((res) => {
       if (res.data) setData(res.data);
