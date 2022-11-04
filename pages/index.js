@@ -52,12 +52,6 @@ export default function Home() {
       });
     // }
   }, [router.query]);
-  let walletAddress, fiatPrice, tokenAmount;
-  useEffect(() => {
-    walletAddress = ellipsisWalletAddress(data.walletAddress);
-    fiatPrice = addComma(data.fiatPrice);
-    tokenAmount = addComma(data.tokenAmount);
-  }, [data]);
 
   useEffect(() => {
     checkPassword();
@@ -138,12 +132,12 @@ export default function Home() {
           // Using default values:
           password={password}
           companyName={data.companyName}
-          fiatPrice={fiatPrice}
+          fiatPrice={addComma(data.fiatPrice)}
           goodsName={data.goodsName}
-          tokenAmount={tokenAmount}
+          tokenAmount={addComma(data.tokenAmount)}
           tokenName={data.tokenName}
           variant="Confirm"
-          walletAddress={walletAddress}
+          walletAddress={ellipsisWalletAddress(data.walletAddress)}
         />
       </Container>
       <ToastContainer />
