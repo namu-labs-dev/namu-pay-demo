@@ -38,7 +38,7 @@ export default function Home() {
 
   // Get order info from uuid
   const { uuid } = router.query;
-  if (window) {
+  if (typeof window !== "undefined") {
     const URL = window.location.origin || "http://localhost:3000";
     console.log("API_URL: " + window.location.origin);
     if (uuid)
