@@ -9,6 +9,8 @@ export default async function handler(req, res) {
   const {
     companyName,
     fiatPrice,
+    orderNumber,
+    goodsNumber,
     goodsName,
     tokenAddress,
     tokenAmount,

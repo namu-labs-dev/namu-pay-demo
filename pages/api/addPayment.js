@@ -14,6 +14,7 @@ export default async function handler(req, res) {
   const payment = {
     uuid: uuidv4(),
     paymentId: paymentLength,
+    orderNumber,
     walletAddress,
     tokenAddress,
     tokenAmount,
