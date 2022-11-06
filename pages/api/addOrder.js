@@ -8,11 +8,11 @@ async function getPubkey(address) {
 export default async function handler(req, res) {
   const {
     companyName,
+    urlFailure,
+    urlSuccess,
     fiatPrice,
     orderNumber,
     goodsNumber,
-    urlFailure,
-    urlSuccess,
     goodsName,
     tokenAddress,
     tokenAmount,
@@ -24,14 +24,14 @@ export default async function handler(req, res) {
   const order = {
     uuid,
     companyName,
+    urlFailure,
+    urlSuccess,
     fiatPrice,
     orderNumber,
     goodsNumber,
-    urlFailure,
-    urlSuccess,
     goodsName,
-    tokenAmount,
     tokenAddress,
+    tokenAmount,
     tokenName,
     walletAddress,
   };

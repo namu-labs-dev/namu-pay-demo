@@ -1,10 +1,10 @@
 export default async function handler(req, res) {
-  const { fiatAmount, fiatName, tokenName } = req.query;
+  const { fiatPrice, fiatName, tokenName } = req.query;
 
   res.status(200).json({
-    fiatAmount,
+    fiatPrice,
     fiatName,
-    tokenAmount: String(fiatAmount * 10.03),
+    tokenPrice: String(fiatPrice * 10.03),
     tokenName,
   });
 }
