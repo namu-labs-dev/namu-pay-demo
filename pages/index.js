@@ -100,7 +100,7 @@ export default function Home() {
     if (waitingPayment) clearInterval(waitingPayment);
     let ret = await axios({
       method: "get",
-      url: `http://localhost:3000/api/addPayment?walletAddress=${data.walletAddress}&tokenAddress=${data.tokenAddress}&tokenAmount=${data.tokenAmount}&password=${password}`,
+      url: `https://namupay.namu-labs.dev/api/addPayment?walletAddress=${data.walletAddress}&tokenAddress=${data.tokenAddress}&tokenAmount=${data.tokenAmount}&password=${password}`,
       headers: {},
     });
     let { paymentId } = ret.data;
@@ -108,7 +108,7 @@ export default function Home() {
     const id = setInterval(async () => {
       let ret = await axios({
         method: "get",
-        url: `http://localhost:3000/api/getPayment?walletAddress=${data.walletAddress}&paymentId=0`, //${paymentId}`,
+        url: `https://namupay.namu-labs.dev/api/getPayment?walletAddress=${data.walletAddress}&paymentId=0`, //${paymentId}`,
         headers: {},
       });
       if (typeof JSON.parse(ret.data[0]).txid !== "undefined")
