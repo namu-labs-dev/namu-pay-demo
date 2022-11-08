@@ -6,28 +6,21 @@ async function getPubkey(address) {
   return await upstash.get("pubkeyOf:" + address);
 }
 export default async function handler(req, res) {
-  const { walletAddress, tokenAddress, tokenAmount, password } = req.query;
-  const publicKey = await getPubkey(walletAddress);
-  const paymentLength = await upstash.llen(walletAddress);
+  const { uuid, password } = req.query;
 
-  console.log(publicKey);
-  const payment = {
-    uuid: uuidv4(),
-    paymentId: paymentLength,
-    orderNumber,
-    walletAddress,
-    tokenAddress,
-    tokenAmount,
-    password,
-  };
+  const payment = JSON.parse(await upstash.get(uuid));
+  payment["password"] = password;
 
+  // console.log(payment);
+  const publicKey = await getPubkey(payment.walletAddress);
   const enc_payment = await EthCrypto.encryptWithPublicKey(
     publicKey,
     JSON.stringify(payment)
   );
 
   const paymentId =
-    -1 + (await upstash.rpush(walletAddress, JSON.stringify(enc_payment)));
+    -1 +
+    (await upstash.rpush(payment.walletAddress, JSON.stringify(enc_payment)));
 
   res.status(200).json({ paymentId: paymentId });
 }
