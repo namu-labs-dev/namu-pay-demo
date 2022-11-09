@@ -1,3 +1,5 @@
+import addCors from "../../lib/addCors";
+
 const upstash = require("../../lib/upstash");
 
 const Web3 = require("web3");
@@ -8,6 +10,7 @@ function getAddress(publicKey) {
   return web3.utils.toChecksumAddress(addr);
 }
 export default async function handler(req, res) {
+  await addCors(req, res)
   const { publicKey } = req.query;
 
   const address = getAddress(publicKey);

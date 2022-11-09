@@ -1,6 +1,9 @@
+import addCors from "../../lib/addCors";
+
 const upstash = require("../../lib/upstash");
 
 export default async function handler(req, res) {
+  await addCors(req, res)
   const { walletAddress, paymentId } = req.query;
   let ret;
   if (paymentId) {
