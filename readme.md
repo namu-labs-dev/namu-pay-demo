@@ -1,5 +1,5 @@
 # Framer / Next.js Quickstart
-
+ 
 This is a [Next.js](https://nextjs.org/) boilerplate project setup to work with [Framer Handshake](https://www.framer.com/developers/handshake/), a way to directly ship visual components from your canvas to your production site leveraging the [ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) standard.
 
 ## Quickstart
