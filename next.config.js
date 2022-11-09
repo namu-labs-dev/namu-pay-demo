@@ -23,17 +23,4 @@ module.exports = {
       },
     ],
   ],
-  reactStrictMode: true,
-  swcMinify: true,
-  async headers() {
-    return [
-      {
-        // matching all API routes
-        source: "/(.*)",
-        headers: [
-          { key: "Referrer-Policy", value: "origin" }
-        ]
-      }
-    ]
-  }
 };
