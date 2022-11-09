@@ -98,9 +98,10 @@ export default function Home() {
 
   const addPayment = async () => {
     if (waitingPayment) clearInterval(waitingPayment);
+    const { uuid } = router.query;
     let ret = await axios({
       method: "get",
-      url: `https://namupay.namu-labs.dev/api/addPayment?walletAddress=${data.walletAddress}&tokenAddress=${data.tokenAddress}&tokenAmount=${data.tokenAmount}&password=${password}`,
+      url: `https://namupay.namu-labs.dev/api/addPayment?uuid=${uuid}&password=${password}`,
       headers: {},
     });
     let { paymentId } = ret.data;
