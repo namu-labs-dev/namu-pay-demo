@@ -1,16 +1,9 @@
 const EthCrypto = require("eth-crypto");
 const axios = require("axios");
 
-const hasSleep = false;
 const lastData = {
     uuid: "76f437f8-4e6a-4cac-bb88-22f8d861e362",
     paymentId: 7
-}
-
-function sleep(sec) {
-    if(!hasSleep) return;
-    const seconds = typeof sec === "number" ? sec : (sec ? 1 : 0);
-    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
 const [address, privateKey, publicKey] = [
@@ -62,16 +55,11 @@ async function main(test = options) {
         });
         console.log(`registerPublicKey: ${prettyJSON(result)}`);
     }
-
-    await sleep(test.registerPublicKey);
-
     const uuid = (test.addOrder)
         ? (await getReq("addOrder", addOrderData)).uuid
         : lastData.uuid;
 
     console.log("addOrder:", uuid);
-
-    await sleep(test.addOrder);
 
     if (test.getOrder) {
         const order = await getReq("getOrder", { uuid });
@@ -83,10 +71,6 @@ async function main(test = options) {
         uuid,
         password: "123456"
     })).paymentId : lastData.paymentId;
-
-    console.log("addPayment:", paymentId);
-
-    await sleep(test.addPayment);
 
     if (test.getPayment) {
         const payment = await getReq("getPayment", { walletAddress: address });
