@@ -37,6 +37,13 @@ export default async function handler(req, res) {
     tokenAmount,
     tokenName,
     walletAddress,
+    receipt: {
+      txid: null,
+      explorer: null
+    },
+    status: "pending",
+    requestedAt: null, // 결제 요청 시간
+    approvedAt: null, // 결제 승인 시간
   };
 
   await upstash.set(uuid, JSON.stringify(order));
