@@ -26,10 +26,14 @@ export default async function handler(req, res) {
   const paymentId = await addPayment(payment.walletAddress, enc_payment);
 
   // TODO: Webhook mockup. After remove
-  await axios.post(await getWebhookURL(""), {
-    succeed: "succeed",
-    orderUuid: uuid,
-  });
+  try {
+    await axios.post(await getWebhookURL(""), {
+      succeed: "succeed",
+      orderUuid: uuid,
+    });
+  } catch (e) {
+    console.error(e);
+  }
 
   res.status(200).json({ paymentId: paymentId });
 }
