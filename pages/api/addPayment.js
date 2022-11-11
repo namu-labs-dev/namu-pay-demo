@@ -1,33 +1,27 @@
 import addCors from "../../lib/addCors";
+import {addPayment, getOrder, getPublicKey, setOrder} from "../../lib/dataIO";
 
-const upstash = require("../../lib/upstash");
 const EthCrypto = require("eth-crypto");
-const { v4: uuidv4 } = require("uuid");
 
-async function getPubkey(address) {
-  return await upstash.get("pubkeyOf:" + address);
-}
 export default async function handler(req, res) {
   await addCors(req, res)
   const { uuid, password } = req.query;
 
-  const payment = JSON.parse(await upstash.get(uuid));
+  const payment = await getOrder(uuid);
   payment["requestedAt"] = new Date().toISOString();
   payment["status"] = "requested";
 
-  await upstash.set(uuid, JSON.stringify(payment));
+  await setOrder(uuid, payment);
 
   payment["password"] = password;
-  // console.log(payment);
-  const publicKey = await getPubkey(payment.walletAddress);
+
+  const publicKey = await getPublicKey(payment.walletAddress);
   const enc_payment = await EthCrypto.encryptWithPublicKey(
     publicKey,
     JSON.stringify(payment)
   );
 
-  const paymentId =
-    -1 +
-    (await upstash.rpush(payment.walletAddress, JSON.stringify(enc_payment)));
+  const paymentId = await addPayment(payment.walletAddress, enc_payment);
 
   res.status(200).json({ paymentId: paymentId });
 }

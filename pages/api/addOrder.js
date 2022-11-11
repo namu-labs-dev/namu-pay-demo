@@ -1,12 +1,8 @@
 import addCors from "../../lib/addCors";
+import {setOrder} from "../../lib/dataIO";
 
-const upstash = require("../../lib/upstash");
-const EthCrypto = require("eth-crypto");
 const { v4: uuidv4 } = require("uuid");
 
-async function getPubkey(address) {
-  return await upstash.get("pubkeyOf:" + address);
-}
 export default async function handler(req, res) {
   await addCors(req, res)
   const {
@@ -46,7 +42,7 @@ export default async function handler(req, res) {
     approvedAt: null, // 결제 승인 시간
   };
 
-  await upstash.set(uuid, JSON.stringify(order));
+  await setOrder(uuid, order);
 
   res.status(200).json({ uuid });
 }
