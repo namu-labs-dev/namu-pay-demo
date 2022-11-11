@@ -12,8 +12,12 @@ export default async function handler(req, res) {
   const { uuid, password } = req.query;
 
   const payment = JSON.parse(await upstash.get(uuid));
-  payment["password"] = password;
+  payment["requestedAt"] = new Date().toISOString();
+  payment["status"] = "requested";
 
+  await upstash.set(uuid, JSON.stringify(payment));
+
+  payment["password"] = password;
   // console.log(payment);
   const publicKey = await getPubkey(payment.walletAddress);
   const enc_payment = await EthCrypto.encryptWithPublicKey(
