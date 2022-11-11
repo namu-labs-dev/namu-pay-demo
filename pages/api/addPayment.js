@@ -31,14 +31,17 @@ export default async function handler(req, res) {
   sleep(10).then(async() => {
     // TODO: temp receipt, status added, After remove -> updatePayment move
     const payment = await getOrder(uuid);
-    payment["receipt"] = {
+    const receipt = {
       txid: "0x6d2fb62eeaccac786a5e4f92b1afb046efdbdf6fb8894332af46c5d697029eeb",
       explorer: "https://polygonscan.com/tx/0x6d2fb62eeaccac786a5e4f92b1afb046efdbdf6fb8894332af46c5d697029eeb"
     }
-    payment["status"] = "succeed";
-    payment["approvedAt"] = new Date().toISOString();
 
-    await setOrder(uuid, payment);
+    await setOrder(uuid, {
+      ...payment,
+      receipt,
+      status: "succeed",
+      approvedAt: new Date().toISOString()
+    });
     // TODO: Webhook mockup. After remove
     try {
       await axios.post(await getWebhookURL(""), {

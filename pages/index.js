@@ -15,7 +15,7 @@ import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW";
 // import TEst from "https://framer.com/m/TEst-bD0l.js";
 import Test1 from "https://framer.com/m/Test1-HGIJ.js@kyq8lQTH9ewgjecUblLG";
 
-const hasLocal = true;
+const hasLocal = false;
 
 const namupayURL = hasLocal ?
     "http://localhost:3000" :
