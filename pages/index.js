@@ -15,6 +15,12 @@ import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW";
 // import TEst from "https://framer.com/m/TEst-bD0l.js";
 import Test1 from "https://framer.com/m/Test1-HGIJ.js@kyq8lQTH9ewgjecUblLG";
 
+const hasLocal = false;
+
+const namupayURL = hasLocal ?
+    "http://localhost:3000" :
+    "https://namupay.namu-labs.dev";
+
 function addComma(num) {
   if (num.toString().indexOf(".") === -1)
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -101,7 +107,7 @@ export default function Home() {
     const { uuid } = router.query;
     let ret = await axios({
       method: "get",
-      url: `https://namupay.namu-labs.dev/api/addPayment?uuid=${uuid}&password=${password}`,
+      url: `${namupayURL}/api/addPayment?uuid=${uuid}&password=${password}`,
       headers: {},
     });
     let { paymentId } = ret.data;
@@ -109,7 +115,7 @@ export default function Home() {
     const id = setInterval(async () => {
       let ret = await axios({
         method: "get",
-        url: `https://namupay.namu-labs.dev/api/getPayment?walletAddress=${data.walletAddress}&paymentId=0`, //${paymentId}`,
+        url: `${namupayURL}/api/getPayment?walletAddress=${data.walletAddress}&paymentId=0`, //${paymentId}`,
         headers: {},
       });
       if (typeof JSON.parse(ret.data[0]).txid !== "undefined")
