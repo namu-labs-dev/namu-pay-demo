@@ -1,5 +1,5 @@
 import addCors from "../../lib/addCors";
-import {addPayment, getExchangeRate, getOrder, getPublicKey, setOrder, updatePayment} from "../../lib/dataIO";
+import { addPayment, getExchangeRate, getOrder, getPublicKey, setOrder, updatePayment } from "../../lib/dataIO";
 
 const EthCrypto = require("eth-crypto");
 
@@ -24,11 +24,11 @@ export default async function handler(req, res) {
   const paymentId = await addPayment(signaturePayment.walletAddress, null);
 
   const enc_payment = await EthCrypto.encryptWithPublicKey(
-      publicKey,
-      JSON.stringify({
-        ...signaturePayment,
-        paymentId
-      })
+    publicKey,
+    JSON.stringify({
+      ...signaturePayment,
+      paymentId
+    })
   );
 
   await updatePayment(signaturePayment.walletAddress, paymentId, enc_payment);

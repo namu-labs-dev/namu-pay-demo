@@ -11,10 +11,9 @@ import { useEffect, useState } from "react";
 
 // A Smart Component from Framer
 // import Toggle from "https://framer.com/m/Toggle-B5iT.js@52zFaz7rN7Bt3pjtYxWH";
-import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@aK0LKUvptziJ3PWOr3Ir"// "https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW";
+import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@fJ71g9bdraYoA3hJyfxQ"//"https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW"; //23f5d43c-b0b7-4057-afc0-03ea1e92b7cf
 // import TEst from "https://framer.com/m/TEst-bD0l.js";
 import Test1 from "https://framer.com/m/Test1-HGIJ.js@kyq8lQTH9ewgjecUblLG";
-
 const hasLocal = false;
 
 const namupayURL = hasLocal ?
@@ -105,8 +104,8 @@ export default function Home() {
 
   const redirectHandler = (isSucceed) => {
     window.location.href = isSucceed
-      ? data.succeedUrl + '?orderId=' + data.orderNumber + '&settlePrice=' + data.tokenAmount
-      : data.failedUrl + '?orderId=' + data.orderNumber + '&message=' + data.falureMessage
+      ? data.urlSuccess + '?orderId=' + data.orderNumber + '&settlePrice=' + data.tokenAmount
+      : data.urlFailure + '?orderId=' + data.orderNumber + '&message=' + data.falureMessage
   }
 
   const addPayment = async () => {
