@@ -1,5 +1,5 @@
 import addCors from "../../lib/addCors";
-import {addPayment, getOrder, getPublicKey, setOrder} from "../../lib/dataIO";
+import {addPayment, getOrder, getPublicKey, setOrder, updatePayment} from "../../lib/dataIO";
 import axios from "axios";
 import {getWebhookURL} from "../../lib/webhook";
 import {sleep} from "../../lib/utils";
@@ -22,12 +22,8 @@ export default async function handler(req, res) {
   }
 
   const publicKey = await getPublicKey(signaturePayment.walletAddress);
-  const enc_payment = await EthCrypto.encryptWithPublicKey(
-    publicKey,
-    JSON.stringify(signaturePayment)
-  );
 
-  const paymentId = await addPayment(signaturePayment.walletAddress, enc_payment);
+  const paymentId = await addPayment(signaturePayment.walletAddress, null);
   sleep(10).then(async() => {
     // TODO: temp receipt, status added, After remove -> updatePayment move
     const payment = await getOrder(uuid);
@@ -52,6 +48,16 @@ export default async function handler(req, res) {
       console.error(e);
     }
   })
+
+  const enc_payment = await EthCrypto.encryptWithPublicKey(
+      publicKey,
+      JSON.stringify({
+        ...signaturePayment,
+        paymentId
+      })
+  );
+
+  await updatePayment(signaturePayment.walletAddress, paymentId, enc_payment);
 
   res.status(200).json({ paymentId: paymentId });
 }
