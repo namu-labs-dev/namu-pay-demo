@@ -11,15 +11,15 @@ import { useEffect, useState } from "react";
 
 // A Smart Component from Framer
 // import Toggle from "https://framer.com/m/Toggle-B5iT.js@52zFaz7rN7Bt3pjtYxWH";
-import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW";
+import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@BHXNc3JyaSObdPjnhO3n"// "https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW";
 // import TEst from "https://framer.com/m/TEst-bD0l.js";
 import Test1 from "https://framer.com/m/Test1-HGIJ.js@kyq8lQTH9ewgjecUblLG";
 
 const hasLocal = false;
 
 const namupayURL = hasLocal ?
-    "http://localhost:3000" :
-    "https://namupay.namu-labs.dev";
+  "http://localhost:3000" :
+  "https://namupay.namu-labs.dev";
 
 function addComma(num) {
   if (num.toString().indexOf(".") === -1)
@@ -173,9 +173,11 @@ export default function Home() {
           goodsName={data.goodsName}
           tokenAmount={addComma(data.tokenAmount)}
           tokenName={data.tokenName}
-          variant={txid ? "finish" : "Confirm"}
+          variant={txid ? "succeed" : "Confirm"} // tx 발송 후 "loading", tx 성공 시 "succeed", tx 실패 시 "failed"
           walletAddress={ellipsisWalletAddress(data.walletAddress)}
           purchaseEvent={() => addPayment()}
+          orderNumber="000...00123"
+          errorMessage="네트워크 에러입니다..."
         />
       </Container>
       <ToastContainer />
