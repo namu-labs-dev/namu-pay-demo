@@ -173,7 +173,7 @@ export default function Home() {
           goodsName={data.goodsName}
           tokenAmount={addComma(data.tokenAmount)}
           tokenName={data.tokenName}
-          variant="failed"//{txid ? "finish" : "Confirm"} // tx 발송 후 "loading", tx 성공 시 "succeed", tx 실패 시 "failed"
+          variant={txid ? "succeed" : "Confirm"} // tx 발송 후 "loading", tx 성공 시 "succeed", tx 실패 시 "failed"
           walletAddress={ellipsisWalletAddress(data.walletAddress)}
           purchaseEvent={() => addPayment()}
           orderNumber="000...00123"
