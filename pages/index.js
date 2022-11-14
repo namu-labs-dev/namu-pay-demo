@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 // A Smart Component from Framer
 // import Toggle from "https://framer.com/m/Toggle-B5iT.js@52zFaz7rN7Bt3pjtYxWH";
-import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@BHXNc3JyaSObdPjnhO3n"// "https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW";
+import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@aK0LKUvptziJ3PWOr3Ir"// "https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW";
 // import TEst from "https://framer.com/m/TEst-bD0l.js";
 import Test1 from "https://framer.com/m/Test1-HGIJ.js@kyq8lQTH9ewgjecUblLG";
 
@@ -45,6 +45,7 @@ export default function Home() {
     walletAddress: "",
   });
   const [element, setElement] = useState(null);
+  // const [redirectUrl, setRedirectUrl] = useState(null);
 
   useEffect(() => {
     setElement(document.getElementsByTagName("body"));
@@ -102,6 +103,12 @@ export default function Home() {
     toast(message, { hideProgressBar: false, autoClose: 2000, type: type });
   };
 
+  const redirectHandler = (isSucceed) => {
+    window.location.href = isSucceed
+      ? data.succeedUrl + '?orderId=' + data.orderNumber + '&settlePrice=' + data.tokenAmount
+      : data.failedUrl + '?orderId=' + data.orderNumber + '&message=' + data.falureMessage
+  }
+
   const addPayment = async () => {
     if (waitingPayment) clearInterval(waitingPayment);
     const { uuid } = router.query;
@@ -110,8 +117,10 @@ export default function Home() {
       url: `${namupayURL}/api/addPayment?uuid=${uuid}&password=${password}`,
       headers: {},
     });
-    let { paymentId } = ret.data;
+    let { paymentId, succeedUrl, failedUrl } = ret.data;
+    setData(ret.data);
 
+    // you have to set on the loading page here
     const id = setInterval(async () => {
       let ret = await axios({
         method: "get",
@@ -125,6 +134,7 @@ export default function Home() {
   };
   useEffect(() => {
     clearInterval(waitingPayment);
+    // you have to set off the loading page here
   }, [txid]);
 
   if (!element) return <></>;
@@ -178,6 +188,8 @@ export default function Home() {
           purchaseEvent={() => addPayment()}
           orderNumber="000...00123"
           errorMessage="네트워크 에러입니다..."
+          succeedRedirect={() => redirectHandler(true)}
+          failedRedirect={() => redirectHandler(false)}
         />
       </Container>
       <ToastContainer />
