@@ -9,7 +9,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@CIwrF6x9NVzFgPUKkcpX";
 
-const hasLocal = true;
+const hasLocal = false;
 const namupayURL = hasLocal ?
   "http://localhost:3000" :
   "https://namupay.namu-labs.dev";
