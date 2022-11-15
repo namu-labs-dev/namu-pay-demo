@@ -1,6 +1,7 @@
 var withSentryConfig = require("@sentry/nextjs").withSentryConfig;
 
 const moduleExports = {
+  reactStrictMode: false,
   async rewrites() {
     return [
       {
