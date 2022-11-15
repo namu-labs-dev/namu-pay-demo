@@ -1,6 +1,14 @@
 var withSentryConfig = require("@sentry/nextjs").withSentryConfig;
 
 const moduleExports = {
+  async rewrites() {
+    return [
+      {
+        source: '/:path*',
+        destination: 'http://localhost:3000/:path*',
+      },
+    ]
+  },
   async headers() {
     return [
       {

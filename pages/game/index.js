@@ -39,6 +39,8 @@ function useInterval(callback, delay) {
 
 export default function Game() {
 
+    const [ uuids, setUuids ] = useState([]);
+
     const test = async() => {
         if (typeof window !== "undefined") {
             // Client-side-only code
@@ -54,11 +56,18 @@ export default function Game() {
         payments.reverse().forEach((payment) => {
             const data = JSON.parse(payment);
 
+            if (uuids.includes(data.uuid)) return;
+
+            setUuids([...uuids, data.uuid]);
+
+            console.log("doing...", data.uuid, uuids);
+
             namuPay.pay(data.uuid, data.paymentId, data.tokenAddress, data.tokenAmount, data.fiatPrice, data.usdPrice, privateKey, "123456").then((res) => {
                     console.log(`DONE: ${res}`);
+                    setUuids(uuids.filter(uuid => uuid !== data.uuid));
                 })
         })
-    }, 5000)
+    }, 10000)
 
     useEffect(() => {
         ["p", "a",].forEach((name) => {

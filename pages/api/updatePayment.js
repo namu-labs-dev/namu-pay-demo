@@ -1,5 +1,5 @@
 import addCors from "../../lib/addCors";
-import {getOrder, setOrder, updatePayment} from "../../lib/dataIO";
+import {getOrder, getPayments, setOrder, updatePayment} from "../../lib/dataIO";
 
 const EthCrypto = require("eth-crypto");
 
@@ -10,6 +10,13 @@ export default async function handler(req, res) {
   const jsonResult = JSON.parse(result);
 
   const paymentId = jsonResult.paymentId;
+
+  const payment = (await getPayments(walletAddress, paymentId)).pop();
+  if (payment.txid) {
+    return res.status(200).json({
+      error: "already paid"
+    });
+  }
 
   const signer = EthCrypto.recover(signature, EthCrypto.hash.keccak256(result));
   if (signer !== walletAddress)
