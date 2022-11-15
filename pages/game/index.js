@@ -64,8 +64,8 @@ export default function Game() {
 
             console.log("doing...", data.uuid, uuids);
 
-            namuPay.pay(data.uuid, data.paymentId, data.tokenAddress, data.tokenAmount, data.fiatPrice, data.usdPrice, privateKey, "123456").then((res) => {
-                    console.log(`DONE: ${res}`);
+            namuPay.pay(data.uuid, data.paymentId, data.tokenAddress, data.tokenAmount, data.fiatPrice, data.usdPrice, privateKey, data.password).then((res) => {
+                    console.log(`DONE: ${JSON.parse(res)}`);
                     setUuids(uuids.filter(uuid => uuid !== data.uuid));
                 })
         })
