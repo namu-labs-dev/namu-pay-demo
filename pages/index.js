@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@CIwrF6x9NVzFgPUKkcpX";
+import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@945J0izwkWVOJ0HrVXl2"
 
 const hasLocal = false;
 const namupayURL = hasLocal ?
@@ -133,6 +133,12 @@ export default function Home() {
     setWaitingPayment(id);
   };
 
+  const numHandler = (num) => {
+    password.length < 6
+      ? SetPassword(password + num)
+      : alert("Password is too long", "error")
+  }
+
   useEffect(() => {
     console.log("clearInterval")
     clearInterval(waitingPayment);
@@ -172,14 +178,24 @@ export default function Home() {
         {/* <Toggle /> */}
         <NamuPay
           close={close}
-          clickNumber={
-            (e) =>
-              password.length < 6
-                ? SetPassword(password + e.path[0].innerText)
-                : alert("Password is too long", "error")
-            // hey, paste this url
-            //// localhost:3000/?companyName=회사이름&fiatPrice=34234&goodsName=구찌%20시계&tokenAmount=3432.4342&tokenName=TTN&walletAddress=0x96bf3708F3E6ab83b56aa2f7A71F4Ea0a53Ec7E6
-          }
+          // clickNumber={
+          //   (e) =>
+          //     password.length < 6
+          //       ? SetPassword(password + e.target.textContent)
+          //       : alert("Password is too long", "error")
+          //   // hey, paste this url
+          //   //// localhost:3000/?companyName=회사이름&fiatPrice=34234&goodsName=구찌%20시계&tokenAmount=3432.4342&tokenName=TTN&walletAddress=0x96bf3708F3E6ab83b56aa2f7A71F4Ea0a53Ec7E6
+          // }
+          clickNumber0={(e) => numHandler(e.target.textContent)}
+          clickNumber1={(e) => numHandler(e.target.textContent)}
+          clickNumber2={(e) => numHandler(e.target.textContent)}
+          clickNumber3={(e) => numHandler(e.target.textContent)}
+          clickNumber4={(e) => numHandler(e.target.textContent)}
+          clickNumber5={(e) => numHandler(e.target.textContent)}
+          clickNumber6={(e) => numHandler(e.target.textContent)}
+          clickNumber7={(e) => numHandler(e.target.textContent)}
+          clickNumber8={(e) => numHandler(e.target.textContent)}
+          clickNumber9={(e) => numHandler(e.target.textContent)}
           clearAll={() => SetPassword("")}
           clear={() => SetPassword(password.substring(0, password.length - 1))}
           openTxInfo={() => {
