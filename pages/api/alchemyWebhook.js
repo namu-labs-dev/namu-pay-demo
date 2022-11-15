@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 
     order = {
         ...order,
-        status,
+        status: status,
         failReason: status === "failed" ? failReason : null
     }
 
