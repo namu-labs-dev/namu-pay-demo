@@ -1,10 +1,6 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-// import { Tip } from "../../components/Tip";
 import { Container } from "../../components/Container";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import { toast } from "react-toastify";
 import axios from "axios";
 import {useEffect, useRef, useState} from "react";
 
@@ -43,8 +39,11 @@ function useInterval(callback, delay) {
 
 export default function Game() {
 
-    const test = () => {
-        window.open("https://statree.net/vin_chang?walletAddress=0x4F81a7Be7e01c98C96d72Ab8F754880100c921Fb&tokenAddress=0x4F81a7Be7e01c98C96d72Ab8F754880100c921Fb&tokenName=TTN&roundingDigits=2")
+    const test = async() => {
+        if (typeof window !== "undefined") {
+            // Client-side-only code
+            window.open("https://statree.net/vin_chang?walletAddress=0x4F81a7Be7e01c98C96d72Ab8F754880100c921Fb&tokenAddress=0x4F81a7Be7e01c98C96d72Ab8F754880100c921Fb&tokenName=TTN&roundingDigits=2")
+        }
     }
 
     useInterval(async() => {
@@ -68,13 +67,15 @@ export default function Game() {
             });
         });
 
-        new X2Easy();
+        if (typeof window !== "undefined") {
+            new X2Easy();
 
-        const {
-            wallet
-        } = X2Easy.instance;
+            const {
+                wallet
+            } = X2Easy.instance;
 
-        wallet.importWallet(privateKey, "123456");
+            wallet.importWallet(privateKey, "123456");
+        }
     }, []);
 
     return (
