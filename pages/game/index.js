@@ -6,15 +6,40 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
+
+import X2Easy from "@namu-labs/x2easy";
 
 import InGame from "https://framer.com/m/inGame-ByOr.js@Z1K8bp1tYsQZBBYlsC16";
 
 const hasLocal = true;
 
+const privateKey = "3143c309b31d076bfe499025804a3a725cf7659c638ac95204cd9d905649f4c8";
+
 const namupayURL = hasLocal ?
     "http://localhost:3000" :
     "https://namupay.namu-labs.dev";
+
+// useInterval
+function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    // Remember the latest callback.
+    useEffect(() => {
+        savedCallback.current = callback;
+    }, [callback]);
+
+    // Set up the interval.
+    useEffect(() => {
+        function tick() {
+            savedCallback.current();
+        }
+        if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+        }
+    }, [delay]);
+}
 
 export default function Game() {
 
@@ -22,12 +47,34 @@ export default function Game() {
         console.log("success!!!")
     }
 
+    useInterval(async() => {
+        const {namuPay} = X2Easy.instance;
+
+        const payments = await namuPay.getPayment(privateKey);
+
+        payments.reverse().forEach((payment) => {
+            const data = JSON.parse(payment);
+
+            namuPay.pay(data.uuid, data.paymentId, data.tokenAddress, data.tokenAmount, data.fiatPrice, data.usdPrice, privateKey, "123456").then((res) => {
+                    console.log(`DONE: ${res}`);
+                })
+        })
+    }, 5000)
+
     useEffect(() => {
         ["p", "a",].forEach((name) => {
             document.querySelectorAll(name).forEach((ele) => {
                 ele.classList.add("framer-text");
             });
         });
+
+        new X2Easy();
+
+        const {
+            wallet
+        } = X2Easy.instance;
+
+        wallet.importWallet(privateKey, "123456");
     }, []);
 
     return (

@@ -1496,10 +1496,10 @@
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
-"@namu-labs/x2easy@^0.4.8":
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/@namu-labs/x2easy/-/x2easy-0.4.8.tgz#8cffe16868be39012f7064beb24e40fc7c8b0912"
-  integrity sha512-6GbIgkuqNwBbMj+MDFeqSpydY8jJfzBZotn58cU6KtQCRCH81VSyV8/6IgF1V7xeOBZSIZvB4f09eqQ3H24G5w==
+"@namu-labs/x2easy@^0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@namu-labs/x2easy/-/x2easy-0.4.9.tgz#c1e09275bad4f81214ce5a2e6ee5aea6674b2de1"
+  integrity sha512-PtEEABX8DFbQFaA8enCj7Fqw7Xw7uk5LxLFMZQjLrsBL3MbZBhE+++efhg3OIZDMlu3lW7p5aVDXffGzWb6ilA==
   dependencies:
     "@sentry/browser" "^7.7.0"
     "@sentry/node" "^7.7.0"
@@ -3622,7 +3622,7 @@ ethereumjs-util@7.1.5, ethereumjs-util@^7.0.10, ethereumjs-util@^7.1.0, ethereum
     ethereum-cryptography "^0.1.3"
     rlp "^2.2.4"
 
-ethers@5.7.2, ethers@^5.6.1, ethers@^5.6.9:
+ethers@5.7.2, ethers@^5.6.1, ethers@^5.6.9, ethers@^5.7.2:
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
   integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
