@@ -4,7 +4,7 @@ import { addPayment, getFiatExchangeRate, getOrder, getPublicKey, setOrder, upda
 const EthCrypto = require("eth-crypto");
 
 export default async function handler(req, res) {
-  // await addCors(req, res)
+  await addCors(req, res)
   const { uuid, password } = req.query;
 
   const payment = await getOrder(uuid);
