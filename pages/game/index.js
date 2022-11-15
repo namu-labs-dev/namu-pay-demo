@@ -44,7 +44,7 @@ function useInterval(callback, delay) {
 export default function Game() {
 
     const test = () => {
-        console.log("success!!!")
+        window.open("https://statree.net/vin_chang?walletAddress=0x4F81a7Be7e01c98C96d72Ab8F754880100c921Fb&tokenAddress=0x4F81a7Be7e01c98C96d72Ab8F754880100c921Fb&tokenName=TTN&roundingDigits=2")
     }
 
     useInterval(async() => {
