@@ -49,7 +49,9 @@ export default function Game() {
     }
 
     useInterval(async() => {
-        const {namuPay} = X2Easy.instance;
+        const {namuPay, settings} = X2Easy.instance;
+
+        settings.setPaymentServerURL("https://namu-pay-demo.vercel.app");
 
         const payments = await namuPay.getPayment(privateKey);
 

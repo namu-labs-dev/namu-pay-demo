@@ -6,7 +6,7 @@ const moduleExports = {
     return [
       {
         source: '/:path*',
-        destination: (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'localhost:3000') + '/:path*',
+        destination: (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000') + '/:path*',
       },
     ]
   },
