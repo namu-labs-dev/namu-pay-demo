@@ -5,7 +5,7 @@ const moduleExports = {
     return [
       {
         source: '/:path*',
-        destination: 'http://localhost:3000/:path*',
+        destination: (process.env.VERCEL ? "https://namupay.namu-labs.dev":'http://localhost:3000') + '/:path*',
       },
     ]
   },
