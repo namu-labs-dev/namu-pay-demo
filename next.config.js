@@ -2,14 +2,14 @@ var withSentryConfig = require("@sentry/nextjs").withSentryConfig;
 
 const moduleExports = {
   reactStrictMode: false,
-  async rewrites() {
-    return [
-      {
-        source: '/:path*',
-        destination: (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000') + '/:path*',
-      },
-    ]
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/:path*',
+  //       destination: (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000') + '/:path*',
+  //     },
+  //   ]
+  // },
   async headers() {
     return [
       {
