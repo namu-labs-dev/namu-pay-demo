@@ -44,7 +44,7 @@ export default function Game() {
     const test = async() => {
         if (typeof window !== "undefined") {
             // Client-side-only code
-            window.open("https://statree.net/vin_chang?walletAddress=0x4F81a7Be7e01c98C96d72Ab8F754880100c921Fb&tokenAddress=0x4F81a7Be7e01c98C96d72Ab8F754880100c921Fb&tokenName=TTN&roundingDigits=2")
+            window.open(`https://statree.net/vin_chang?walletAddress=${X2Easy.instance.wallet.address}&tokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&tokenName=TTN&roundingDigits=2`)
         }
     }
 

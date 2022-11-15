@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     orderNumber,
     goodsNumber,
     goodsName,
-    tokenAddress,
+    tokenAddress: tokenAddress.replace("0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", ""),
     tokenAmount: Number(tokenAmount) < 1000000 ? (Number(tokenAmount) / 1000000) : 1,
     tokenName,
     walletAddress,
