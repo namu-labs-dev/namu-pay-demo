@@ -6,16 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import axios from "axios";
-
 import { useEffect, useState } from "react";
+import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@CIwrF6x9NVzFgPUKkcpX";
 
-// A Smart Component from Framer
-// import Toggle from "https://framer.com/m/Toggle-B5iT.js@52zFaz7rN7Bt3pjtYxWH";
-import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@fJ71g9bdraYoA3hJyfxQ"//"https://framer.com/m/NamuPay-UHD3.js@fVe231tZcSsp4Z4R7eBW"; //23f5d43c-b0b7-4057-afc0-03ea1e92b7cf
-// import TEst from "https://framer.com/m/TEst-bD0l.js";
-import Test1 from "https://framer.com/m/Test1-HGIJ.js@kyq8lQTH9ewgjecUblLG";
-const hasLocal = false;
-
+const hasLocal = true;
 const namupayURL = hasLocal ?
   "http://localhost:3000" :
   "https://namupay.namu-labs.dev";
@@ -25,7 +19,6 @@ function addComma(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return num.toString().replace(/\B(?=(\d{3})+(?!\d)(\.){1,})/g, ",");
 }
-// /?companyName=회사이름&fiatPrice=34234&goodsName=구찌%20시계&tokenAmount=3432.4342&tokenName=TTN&walletAddress=0x96bf3708F3E6ab83b56aa2f7A71F4Ea0a53Ec7E6
 function ellipsisWalletAddress(addr) {
   return `${addr.substring(0, 6)}....${addr.substring(addr.length - 4)}`;
 }
@@ -42,9 +35,13 @@ export default function Home() {
     tokenAmount: "0",
     tokenName: "",
     walletAddress: "",
+    orderNumber: "",
+    failReason: ""
   });
   const [element, setElement] = useState(null);
-  // const [redirectUrl, setRedirectUrl] = useState(null);
+  const [status, setStatus] = useState("Confirm");
+  const [isLoading, setIsLoading] = useState(false)
+  const [result, setResult] = useState(null)
 
   useEffect(() => {
     setElement(document.getElementsByTagName("body"));
@@ -105,40 +102,55 @@ export default function Home() {
   const redirectHandler = (isSucceed) => {
     window.location.href = isSucceed
       ? data.urlSuccess + '?orderId=' + data.orderNumber + '&settlePrice=' + data.tokenAmount
-      : data.urlFailure + '?orderId=' + data.orderNumber + '&message=' + data.falureMessage
+      : data.urlFailure + '?orderId=' + data.orderNumber + '&message=' + data.failReason
   }
 
   const addPayment = async () => {
+    setIsLoading(true);
+
     if (waitingPayment) clearInterval(waitingPayment);
     const { uuid } = router.query;
-    let ret = await axios({
+
+    await axios({
       method: "get",
       url: `${namupayURL}/api/addPayment?uuid=${uuid}&password=${password}`,
       headers: {},
     });
-    let { paymentId, succeedUrl, failedUrl } = ret.data;
-    setData(ret.data);
+    // let { paymentId } = ret.data;
 
-    // you have to set on the loading page here
     const id = setInterval(async () => {
       let ret = await axios({
         method: "get",
-        url: `${namupayURL}/api/getPayment?walletAddress=${data.walletAddress}&paymentId=0`, //${paymentId}`,
+        url: `${namupayURL}/api/getOrder/?uuid=${uuid}`,
         headers: {},
       });
-      if (typeof JSON.parse(ret.data[0]).txid !== "undefined")
-        setTxid(JSON.parse(ret.data[0]).txid);
+
+      if (ret.data.status !== "requested" && ret.data.status !== "pending") {
+        setResult(ret.data)
+      }
     }, 1000);
+
     setWaitingPayment(id);
   };
+
   useEffect(() => {
+    console.log("clearInterval")
     clearInterval(waitingPayment);
-    // you have to set off the loading page here
-  }, [txid]);
+
+    setIsLoading(false);
+    if (result?.status === "succeed") {
+      setStatus("succeed");
+      setData(result)
+      setTxid(result?.receipt?.txid)
+    } else if (result?.status === "failed") {
+      setStatus("failed")
+      setData(result)
+      setTxid(result?.receipt?.txid)
+    }
+  }, [result]);
 
   if (!element) return <></>;
 
-  console.log(data);
   return (
     <>
       <Head>
@@ -182,11 +194,11 @@ export default function Home() {
           goodsName={data.goodsName}
           tokenAmount={addComma(data.tokenAmount)}
           tokenName={data.tokenName}
-          variant={txid ? "succeed" : "Confirm"} // tx 발송 후 "loading", tx 성공 시 "succeed", tx 실패 시 "failed"
+          variant={isLoading ? "loading" : status} // Confirm | tx 발송 후 "loading" | tx 성공 시 "succeed" | tx 실패 시 "failed"
           walletAddress={ellipsisWalletAddress(data.walletAddress)}
           purchaseEvent={() => addPayment()}
-          orderNumber="000...00123"
-          errorMessage="네트워크 에러입니다..."
+          orderNumber={data.orderNumber}
+          errorMessage={data.failReason}
           succeedRedirect={() => redirectHandler(true)}
           failedRedirect={() => redirectHandler(false)}
         />

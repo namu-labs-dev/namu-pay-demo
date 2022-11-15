@@ -1,7 +1,7 @@
-import {getOrder, getPayments, setOrder} from "../../lib/dataIO";
-import {checkSumAddress, getBlockchainExplorer} from "../../lib/utils";
+import { getOrder, getPayments, setOrder } from "../../lib/dataIO";
+import { checkSumAddress, getBlockchainExplorer } from "../../lib/utils";
 import axios from "axios";
-import {getWebhookURL} from "../../lib/webhook";
+import { getWebhookURL } from "../../lib/webhook";
 
 export default async function handler(req, res) {
     let body = req.body;
@@ -58,5 +58,5 @@ export default async function handler(req, res) {
         // TODO : retry send webhook
     }
 
-    res.status(200).json({...order});
+    res.status(200).json({ ...order });
 }
