@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const usdRate = Number(fiatPrice) / Number(await getFiatExchangeRate("USD"));
   const tokenRate = await getCryptoExchangeRate(tokenAddress);
 
-  const result = usdRate / Number(tokenRate['USDC']) * ((100 + slippage)/100);
+  let result = usdRate / Number(tokenRate['USDC']) * ((100 + slippage)/100);
 
   res.status(200).json({
     fiatPrice,
