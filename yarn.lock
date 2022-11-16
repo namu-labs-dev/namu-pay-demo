@@ -1496,10 +1496,10 @@
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
-"@namu-labs/x2easy@^0.4.11":
-  version "0.4.11"
-  resolved "https://registry.yarnpkg.com/@namu-labs/x2easy/-/x2easy-0.4.11.tgz#4f06c160f9655360d0c83bd4b0369fa386b56f6f"
-  integrity sha512-RV5rGr2O6s922Nu5UqvE0btIF9hy3Jc+xBh0Kd/nT0aUmtOZaTgfgUpaHNTrI/RAvr1JX/8l78vqoPqN55jGbw==
+"@namu-labs/x2easy@^0.4.12":
+  version "0.4.12"
+  resolved "https://registry.yarnpkg.com/@namu-labs/x2easy/-/x2easy-0.4.12.tgz#145a4df6b2fe0d293298f7a42588a6bdac4da3ea"
+  integrity sha512-i5xXCseADmmH/x9k3EGwcBWYQuQnNPoW27B6QOwx6HqgoqdRMfRaCuFzRj0sIUbmyR3+qKEmxRJmk2u/YV5SxQ==
   dependencies:
     "@sentry/browser" "^7.7.0"
     "@sentry/node" "^7.7.0"

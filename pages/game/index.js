@@ -44,7 +44,7 @@ export default function Game() {
     const test = async() => {
         if (typeof window !== "undefined") {
             // Client-side-only code
-            window.open(`https://statree.net/vin_chang?walletAddress=${X2Easy.instance.wallet.address}&tokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&tokenName=MATIC&roundingDigits=8`)
+            window.open(`https://statree.net/namulabs?walletAddress=${X2Easy.instance.wallet.address}&tokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&tokenName=MATIC`)
         }
     }
 
@@ -58,10 +58,11 @@ export default function Game() {
         payments.reverse().forEach((payment) => {
             const data = JSON.parse(payment);
 
-            if (data.select && data.expiredAt > Date.now()) return;
+            if (data.selected && data.expiredAt > Date.now()) return;
+
 
             axios.get(namupayURL + "/api/selectPayment?uuid=" + data.uuid).then((res) => {
-                if (data.paymentId >= 0 || uuids.includes(data.uuid)) return;
+                if (uuids.includes(data.uuid)) return;
 
                 setUuids([...uuids, data.uuid]);
 
@@ -77,7 +78,7 @@ export default function Game() {
     }, 3000)
 
     useEffect(() => {
-        console.log("version", 1);
+        console.log("version", 1.2);
         ["p", "a",].forEach((name) => {
             document.querySelectorAll(name).forEach((ele) => {
                 ele.classList.add("framer-text");
