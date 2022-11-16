@@ -122,7 +122,7 @@ export default function Home() {
     const id = setInterval(async () => {
       let ret = await axios({
         method: "get",
-        url: `${namupayURL}/api/getOrder/?uuid=${uuid}`,
+        url: `${namupayURL}/api/getOrder?uuid=${uuid}`,
         headers: {},
       });
 
@@ -222,8 +222,8 @@ export default function Home() {
           tokenAmount={addComma(data.tokenAmount)}
           tokenName={data.tokenName}
           walletAddress={ellipsisWalletAddress(data.walletAddress)}
-          // purchaseEvent={() => addPayment()}
-          purchaseEvent={() => motionTestHandler()}
+          purchaseEvent={() => addPayment()}
+          // purchaseEvent={() => motionTestHandler()}
 
           orderNumber={data.orderNumber}
           errorMessage={data.failReason}
