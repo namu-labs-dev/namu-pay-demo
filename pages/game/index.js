@@ -8,7 +8,7 @@ import X2Easy from "@namu-labs/x2easy";
 
 import InGame from "https://framer.com/m/inGame-ByOr.js@Z1K8bp1tYsQZBBYlsC16";
 
-const hasLocal = true;
+const hasLocal = false;
 
 const privateKey = "3143c309b31d076bfe499025804a3a725cf7659c638ac95204cd9d905649f4c8";
 
@@ -58,16 +58,21 @@ export default function Game() {
         payments.reverse().forEach((payment) => {
             const data = JSON.parse(payment);
 
-            if (uuids.includes(data.uuid)) return;
+            if (data.select && data.expiredAt > Date.now()) return;
 
-            setUuids([...uuids, data.uuid]);
+            axios.get(namupayURL + "/api/selectPayment?uuid=" + data.uuid).then((res) => {
+                if (data.paymentId >= 0 || uuids.includes(data.uuid)) return;
 
-            console.log("doing...", data.uuid, uuids);
+                setUuids([...uuids, data.uuid]);
 
-            namuPay.pay(data.uuid, data.paymentId, data.tokenAddress, data.tokenAmount, data.fiatPrice, data.usdPrice, privateKey, data.password).then((res) => {
-                    console.log(`DONE: ${JSON.parse(res)}`);
-                    setUuids(uuids.filter(uuid => uuid !== data.uuid));
-                })
+                console.log("doing...", data.uuid, uuids);
+
+                namuPay.pay(data.uuid, data.paymentId, data.tokenAddress, data.tokenAmount, data.fiatPrice, data.usdPrice, privateKey, data.password).then((res) => {
+                        console.log(`DONE: ${JSON.stringify(res)}`);
+                        setUuids(uuids.filter(uuid => uuid !== data.uuid));
+                    })
+            })
+
         })
     }, 10000)
 
