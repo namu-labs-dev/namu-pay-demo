@@ -7,7 +7,8 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@945J0izwkWVOJ0HrVXl2"
+import { motion } from "framer-motion";
+import NamuPay from "https://framer.com/m/NamuPay-UHD3.js@2swm0NJVZLlnSDczyS9E"
 
 const hasLocal = false;
 const namupayURL = hasLocal ?
@@ -155,6 +156,13 @@ export default function Home() {
     }
   }, [result]);
 
+
+  const motionTestHandler = () => {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 2000)
+    setStatus("succeed");
+  }
+
   if (!element) return <></>;
 
   return (
@@ -178,6 +186,7 @@ export default function Home() {
         {/* <Toggle /> */}
         <NamuPay
           close={close}
+          variant={isLoading ? "loading" : status} // Confirm | tx 발송 후 "loading" | tx 성공 시 "succeed" | tx 실패 시 "failed"
           // clickNumber={
           //   (e) =>
           //     password.length < 6
@@ -198,10 +207,12 @@ export default function Home() {
           clickNumber9={(e) => numHandler(e.target.textContent)}
           clearAll={() => SetPassword("")}
           clear={() => SetPassword(password.substring(0, password.length - 1))}
+
           openTxInfo={() => {
             window.open(`https://polygonscan.com/tx/${txid}`);
           }}
           txid={txid ? ellipsisWalletAddress(txid) : ""}
+
           className="NamuPay"
           // Using default values:
           password={password}
@@ -210,9 +221,10 @@ export default function Home() {
           goodsName={data.goodsName}
           tokenAmount={addComma(data.tokenAmount)}
           tokenName={data.tokenName}
-          variant={isLoading ? "loading" : status} // Confirm | tx 발송 후 "loading" | tx 성공 시 "succeed" | tx 실패 시 "failed"
           walletAddress={ellipsisWalletAddress(data.walletAddress)}
-          purchaseEvent={() => addPayment()}
+          // purchaseEvent={() => addPayment()}
+          purchaseEvent={() => motionTestHandler()}
+
           orderNumber={data.orderNumber}
           errorMessage={data.failReason}
           succeedRedirect={() => redirectHandler(true)}
