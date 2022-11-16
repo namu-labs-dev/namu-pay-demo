@@ -9,15 +9,32 @@ export default async function handler(req, res) {
     companyName,
     urlFailure,
     urlSuccess,
-    fiatPrice,
+    fiatPrice: stringFiatPrice,
     orderNumber,
     goodsNumber,
     goodsName,
     tokenAddress,
-    tokenAmount,
+    tokenAmount: stringTokenAmount,
     tokenName,
     walletAddress,
   } = req.query;
+
+  const processTestAmount = (amount, min = 0.01) => {
+    let result = Number(amount);
+
+    result /= 1000000;
+
+    if (result > 1) result = 1;
+    if (result < 0.01) result = min;
+
+    return result;
+  }
+
+  let fiatPrice = Number(stringFiatPrice);
+  let tokenAmount = Number(stringTokenAmount);
+
+  fiatPrice = processTestAmount(fiatPrice, 0.001);
+  tokenAmount = processTestAmount(tokenAmount);
 
   const uuid = uuidv4();
   const order = {
@@ -25,12 +42,12 @@ export default async function handler(req, res) {
     companyName,
     urlFailure,
     urlSuccess,
-    fiatPrice: Number(fiatPrice) < 1000000 ? (Number(fiatPrice) / 1000000) : 1,
+    fiatPrice,
     orderNumber,
     goodsNumber,
     goodsName,
     tokenAddress: tokenAddress.replace("0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", ""),
-    tokenAmount: Number(tokenAmount) < 1000000 ? (Number(tokenAmount) / 1000000) : 1,
+    tokenAmount,
     tokenName,
     walletAddress,
     receipt: {
