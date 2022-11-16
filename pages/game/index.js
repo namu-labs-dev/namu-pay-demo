@@ -74,7 +74,7 @@ export default function Game() {
             })
 
         })
-    }, 10000)
+    }, 3000)
 
     useEffect(() => {
         ["p", "a",].forEach((name) => {
