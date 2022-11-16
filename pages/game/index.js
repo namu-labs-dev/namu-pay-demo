@@ -77,6 +77,7 @@ export default function Game() {
     }, 3000)
 
     useEffect(() => {
+        console.log("version", 1);
         ["p", "a",].forEach((name) => {
             document.querySelectorAll(name).forEach((ele) => {
                 ele.classList.add("framer-text");
