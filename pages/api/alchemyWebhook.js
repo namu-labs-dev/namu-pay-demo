@@ -16,7 +16,9 @@ export default async function handler(req, res) {
 
     const payment = JSON.parse(payments.filter(p => {
         return JSON.parse(p).txid === txid
-    }).pop());
+    }).pop() || null);
+
+    if (!payment) return res.status(404).json({fail: true});
 
     const { uuid } = payment;
 
