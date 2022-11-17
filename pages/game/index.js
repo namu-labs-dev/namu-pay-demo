@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import X2Easy from "@namu-labs/x2easy";
 
-import InGame from "https://framer.com/m/inGame-ByOr.js@UOE6OwRVa3ysyvBsY1Cx"
+import InGame from "https://framer.com/m/inGame-ByOr.js@Rzh5kOdxO9obaEB5Hjc7"
 
 const hasLocal = false;
 
