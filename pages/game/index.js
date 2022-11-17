@@ -2,11 +2,11 @@ import Head from "next/head";
 import { Container } from "../../components/Container";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import X2Easy from "@namu-labs/x2easy";
 
-import InGame from "https://framer.com/m/inGame-ByOr.js@Z1K8bp1tYsQZBBYlsC16";
+import InGame from "https://framer.com/m/inGame-ByOr.js@UOE6OwRVa3ysyvBsY1Cx"
 
 const hasLocal = false;
 
@@ -39,17 +39,17 @@ function useInterval(callback, delay) {
 
 export default function Game() {
 
-    const [ uuids, setUuids ] = useState([]);
+    const [uuids, setUuids] = useState([]);
 
-    const test = async() => {
+    const test = async () => {
         if (typeof window !== "undefined") {
             // Client-side-only code
             window.open(`https://statree.net/namulabs?walletAddress=${X2Easy.instance.wallet.address}&tokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&tokenName=MATIC`)
         }
     }
 
-    useInterval(async() => {
-        const {namuPay, settings} = X2Easy.instance;
+    useInterval(async () => {
+        const { namuPay, settings } = X2Easy.instance;
 
         settings.setPaymentServerURL("https://namu-pay-demo.vercel.app");
 
@@ -69,9 +69,9 @@ export default function Game() {
                 console.log("doing...", data.uuid, uuids);
 
                 namuPay.pay(data.uuid, data.paymentId, data.tokenAddress, data.tokenAmount, data.fiatPrice, data.usdPrice, privateKey, data.password).then((res) => {
-                        console.log(`DONE: ${JSON.stringify(res)}`);
-                        setUuids(uuids.filter(uuid => uuid !== data.uuid));
-                    })
+                    console.log(`DONE: ${JSON.stringify(res)}`);
+                    setUuids(uuids.filter(uuid => uuid !== data.uuid));
+                })
             })
 
         })
